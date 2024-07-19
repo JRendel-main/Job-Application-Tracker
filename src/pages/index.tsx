@@ -1,118 +1,279 @@
-import Image from "next/image";
-import { Inter } from "next/font/google";
+import DashboardCard from '@/components/DashboardCard';
+import Layout from '@/components/Layout'
+import TableRows from '@/components/TableRows';
+import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
+import { DropdownMenu, DropdownMenuTrigger, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuCheckboxItem, DropdownMenuContent } from '@radix-ui/react-dropdown-menu';
+import { BriefcaseIcon, CalendarIcon, ClockIcon, Edit2Icon, FilterIcon, GiftIcon, Trash2Icon } from 'lucide-react';
+import React from 'react'
+import JobApplication from '@/types/JobApplication';
+import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle, SheetTrigger } from '@/components/ui/sheet';
+import { Label } from '@/components/ui/label';
+import { Input } from '@/components/ui/input';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 
-const inter = Inter({ subsets: ["latin"] });
 
-export default function Home() {
+const dashboardData = [
+  {
+    title: "Total Applications",
+    icon: <BriefcaseIcon className="w-6 h-6 text-primary" />,
+    value: 52
+  },
+  {
+    title: "Pending Applications",
+    icon: <ClockIcon className="w-6 h-6 text-primary" />,
+    value: 10
+  },
+  {
+    title: "Interviews Scheduled",
+    icon: <CalendarIcon className="w-6 h-6 text-primary" />,
+    value: 5
+  },
+  {
+    title: "Offers Recieved",
+    icon: <GiftIcon className="w-6 h-6 text-primary" />,
+    value: 3
+  }
+]
+
+const index = () => {
   return (
-    <main
-      className={`flex min-h-screen flex-col items-center justify-between p-24 ${inter.className}`}
-    >
-      <div className="z-10 max-w-5xl w-full items-center justify-between font-mono text-sm lg:flex">
-        <p className="fixed left-0 top-0 flex w-full justify-center border-b border-gray-300 bg-gradient-to-b from-zinc-200 pb-6 pt-8 backdrop-blur-2xl dark:border-neutral-800 dark:bg-zinc-800/30 dark:from-inherit lg:static lg:w-auto  lg:rounded-xl lg:border lg:bg-gray-200 lg:p-4 lg:dark:bg-zinc-800/30">
-          Get started by editing&nbsp;
-          <code className="font-mono font-bold">src/pages/index.tsx</code>
-        </p>
-        <div className="fixed bottom-0 left-0 flex h-48 w-full items-end justify-center bg-gradient-to-t from-white via-white dark:from-black dark:via-black lg:static lg:h-auto lg:w-auto lg:bg-none">
-          <a
-            className="pointer-events-none flex place-items-center gap-2 p-8 lg:pointer-events-auto lg:p-0"
-            href="https://vercel.com?utm_source=create-next-app&utm_medium=default-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            By{" "}
-            <Image
-              src="/vercel.svg"
-              alt="Vercel Logo"
-              className="dark:invert"
-              width={100}
-              height={24}
-              priority
-            />
-          </a>
+    <div>
+      <Layout>
+        <div className="flex justify-center gap-5 items-center">
+          <div className="flex-1">
+            <div className="grid grid-cols-4 gap-6">
+              {dashboardData.map((data, index) => {
+                return (
+                  <DashboardCard
+                    key={index}
+                    title={data.title}
+                    icon={data.icon}
+                    value={data.value}
+                  />
+                );
+              })}
+            </div>
+          </div>
         </div>
-      </div>
-
-      <div className="relative flex place-items-center before:absolute before:h-[300px] before:w-full sm:before:w-[480px] before:-translate-x-1/2 before:rounded-full before:bg-gradient-radial before:from-white before:to-transparent before:blur-2xl before:content-[''] after:absolute after:-z-20 after:h-[180px] after:w-full sm:after:w-[240px] after:translate-x-1/3 after:bg-gradient-conic after:from-sky-200 after:via-blue-200 after:blur-2xl after:content-[''] before:dark:bg-gradient-to-br before:dark:from-transparent before:dark:to-blue-700/10 after:dark:from-sky-900 after:dark:via-[#0141ff]/40 before:lg:h-[360px]">
-        <Image
-          className="relative dark:drop-shadow-[0_0_0.3rem_#ffffff70] dark:invert"
-          src="/next.svg"
-          alt="Next.js Logo"
-          width={180}
-          height={37}
-          priority
-        />
-      </div>
-
-      <div className="mb-32 grid text-center lg:max-w-5xl lg:w-full lg:mb-0 lg:grid-cols-4 lg:text-left">
-        <a
-          href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=default-template-tw&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className={`mb-3 text-2xl font-semibold`}>
-            Docs{" "}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className={`m-0 max-w-[30ch] text-sm opacity-50`}>
-            Find in-depth information about Next.js features and API.
-          </p>
-        </a>
-
-        <a
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=default-template-tw&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className={`mb-3 text-2xl font-semibold`}>
-            Learn{" "}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className={`m-0 max-w-[30ch] text-sm opacity-50`}>
-            Learn about Next.js in an interactive course with&nbsp;quizzes!
-          </p>
-        </a>
-
-        <a
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=default-template-tw&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className={`mb-3 text-2xl font-semibold`}>
-            Templates{" "}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className={`m-0 max-w-[30ch] text-sm opacity-50`}>
-            Discover and deploy boilerplate example Next.js&nbsp;projects.
-          </p>
-        </a>
-
-        <a
-          href="https://vercel.com/new?utm_source=create-next-app&utm_medium=default-template-tw&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className={`mb-3 text-2xl font-semibold`}>
-            Deploy{" "}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className={`m-0 max-w-[30ch] text-sm opacity-50 text-balance`}>
-            Instantly deploy your Next.js site to a shareable URL with Vercel.
-          </p>
-        </a>
-      </div>
-    </main>
+        <div className="mt-6 md:mt-10">
+          <Card>
+            <CardHeader className="flex items-center justify-between pb-2 px-3">
+              <CardTitle>Application Lists</CardTitle>
+              <Sheet>
+                <SheetTrigger asChild>
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    className="h-7 gap-1 text-sm"
+                  >
+                    <Edit2Icon className="w-4 h-4" />
+                    <span>Add Application</span>
+                  </Button>
+                </SheetTrigger>
+                <SheetContent>
+                  <SheetHeader>
+                    <SheetTitle>Add new application</SheetTitle>
+                    <SheetDescription>
+                      Fill in the details of the application you want to add.
+                    </SheetDescription>
+                    <div className="grid gap-4 py-4">
+                      <div className="flex flex-col items-start gap-3">
+                        <Label htmlFor="company" className="text-right">
+                          Company Name:
+                        </Label>
+                        <Input
+                          id="company"
+                          type="text"
+                          placeholder="Enter company name here"
+                        />
+                      </div>
+                      <div className="flex flex-col items-start gap-3">
+                        <Label htmlFor="role" className="text-right">
+                          Role:
+                        </Label>
+                        <Input
+                          id="role"
+                          type="text"
+                          placeholder="Enter role here"
+                        />
+                      </div>
+                      <div className="flex flex-col items-start gap-3">
+                        <Label htmlFor="date" className="text-right">
+                          Date:
+                        </Label>
+                        <Input
+                          id="date"
+                          type="date"
+                          placeholder="Enter date here"
+                        />
+                      </div>
+                      <div className="flex flex-col items-start gap-3">
+                        <Label htmlFor="type" className="text-right">
+                          Type:
+                        </Label>
+                        <Select>
+                          <SelectTrigger>
+                            <SelectValue placeholder="Select type" />
+                          </SelectTrigger>
+                          <SelectContent>
+                            <SelectItem value="Remote">Remote</SelectItem>
+                            <SelectItem value="On-site">On-site</SelectItem>
+                            <SelectItem value="Hybrid">Hybrid</SelectItem>
+                          </SelectContent>
+                        </Select>
+                      </div>
+                      <div className="flex flex-col items-start gap-3">
+                        <Label htmlFor="platform" className="text-right">
+                          Platform:
+                        </Label>
+                        <Input
+                          id="platform"
+                          type="text"
+                          placeholder="Enter platform here"
+                        />
+                      </div>
+                      <div className="flex flex-col items-start gap-3">
+                        <Label htmlFor="link" className="text-right">
+                          Link:
+                        </Label>
+                        <Input
+                          id="link"
+                          type="text"
+                          placeholder="Enter link here"
+                        />
+                      </div>
+                      <div className="flex flex-col items-start gap-3">
+                        <Label htmlFor="location" className="text-right">
+                          Location:
+                        </Label>
+                        <Input
+                          id="location"
+                          type="text"
+                          placeholder="Enter location here"
+                        />
+                      </div>
+                      <div className="flex flex-col items-start gap-3">
+                        <Label htmlFor="status" className="text-right">
+                          Status:
+                        </Label>
+                        <Select>
+                          <SelectTrigger>
+                            <SelectValue placeholder="Select status" />
+                          </SelectTrigger>
+                          <SelectContent>
+                            <SelectItem value="Applied">Applied</SelectItem>
+                            <SelectItem value="Scheduled">Interview Scheduled</SelectItem>
+                            <SelectItem value="Offered">Offered</SelectItem>
+                            <SelectItem value="Rejected">Rejected</SelectItem>
+                          </SelectContent>
+                        </Select>
+                    </div>
+                    <div className="flex justify-end gap-2">
+                      <Button variant="outline" size="sm">
+                        <Trash2Icon className="w-4 h-4" />
+                        <span>Cancel</span>
+                      </Button>
+                      <Button variant="default" size="sm">
+                        <GiftIcon className="w-4 h-4" />
+                        <span>Add Application</span>
+                      </Button>
+                      </div>
+                    </div>
+                  </SheetHeader>
+                </SheetContent>
+              </Sheet>
+              <div className="flex items-center gap-2 mt-5">
+                <DropdownMenu>
+                  <DropdownMenuTrigger asChild>
+                    <Button
+                      variant={"outline"}
+                      size="sm"
+                      className="h-7 gap-1 text-sm"
+                    >
+                      <FilterIcon className="w-4 h-4" />
+                      <span>Filter</span>
+                    </Button>
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent>
+                    <DropdownMenuLabel>Filter by</DropdownMenuLabel>
+                    <DropdownMenuSeparator />
+                    <DropdownMenuCheckboxItem>
+                      In Progress
+                    </DropdownMenuCheckboxItem>
+                    <DropdownMenuCheckboxItem>Applied</DropdownMenuCheckboxItem>
+                    <DropdownMenuCheckboxItem>
+                      Interviewed
+                    </DropdownMenuCheckboxItem>
+                    <DropdownMenuCheckboxItem>Offered</DropdownMenuCheckboxItem>
+                  </DropdownMenuContent>
+                </DropdownMenu>
+                <DropdownMenu>
+                  <DropdownMenuTrigger asChild>
+                    <Button
+                      variant={"outline"}
+                      size="sm"
+                      className="h-7 gap-1 text-sm"
+                    >
+                      <ClockIcon className="w-4 h-4" />
+                      <span>Sort</span>
+                    </Button>
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent align="end" className="p-4">
+                    <DropdownMenuLabel>Sort By</DropdownMenuLabel>
+                    <DropdownMenuSeparator />
+                    <DropdownMenuCheckboxItem checked>
+                      Date
+                    </DropdownMenuCheckboxItem>
+                    <DropdownMenuCheckboxItem>Company</DropdownMenuCheckboxItem>
+                    <DropdownMenuCheckboxItem>Status</DropdownMenuCheckboxItem>
+                  </DropdownMenuContent>
+                </DropdownMenu>
+              </div>
+            </CardHeader>
+            <CardContent>
+              <Table>
+                <TableHeader>
+                  <TableRow>
+                    <TableHead>Company</TableHead>
+                    <TableHead>Role</TableHead>
+                    <TableHead>Date Applied</TableHead>
+                    <TableHead>Type</TableHead>
+                    <TableHead>Platform</TableHead>
+                    <TableHead>Job Listing Link</TableHead>
+                    <TableHead>Location</TableHead>
+                    <TableHead>Status</TableHead>
+                    <TableHead>Actions</TableHead>
+                  </TableRow>
+                </TableHeader>
+                <TableBody>
+                  {JobApplication.map(
+                    (applications: JobApplication, index: Number) => {
+                      return (
+                        <TableRows
+                          key={index.toString()}
+                          company={applications.company}
+                          role={applications.role}
+                          date={applications.date}
+                          type={applications.type}
+                          platform={applications.platform}
+                          location={applications.location}
+                          link={applications.link}
+                          status={applications.status}
+                        />
+                      );
+                    }
+                  )}
+                </TableBody>
+              </Table>
+            </CardContent>
+          </Card>
+        </div>
+      </Layout>
+    </div>
   );
 }
+
+export default index
